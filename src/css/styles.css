@@ -1,0 +1,145 @@
+*{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body {
+  font-family: 'Monserrat', sans-serif;
+    font-size: 400;
+    font-weight: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+}
+
+img {
+  display: block;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.search-form{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 36px;
+  padding-bottom: 32px;
+}
+
+
+.search-bar{
+  width: 272px;
+  height: 40px;
+  display: flex;
+  border-radius: 4px;
+  border: 1px solid #808080;
+
+}
+.search-bar::placeholder {
+  color: #808080;
+}
+
+.search-bar:hover {
+  border-color: #000000;
+}
+
+.search-bar:focus {
+  border-color: #4E75FF;
+  outline: none;
+}
+
+.search-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 8px 16px;
+    width: 91px;
+    height: 40px;
+    border: none;
+    background-color: #4e75ff;
+    color: #FFFFFF;
+}
+
+.search-btn:hover {
+  background-color: #6C8CFF;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+  display: none;
+  margin: 0 auto;
+  margin-top: 36px;
+}
+
+.loader::after,
+.loader::before {
+  content: '';
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #000000;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: animloader 2s linear infinite;
+}
+
+.loader::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.js-gallery{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  row-gap: 24px;
+}
+.js-gallery-item{
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  height: 200px;
+  border: 1px solid #808080;
+}
+.stats{
+  display: flex;
+  padding: 4px 20px;
+  justify-content: space-evenly;
+}
+.stats-item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 133%;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+
+.stats-span{
+  font-weight: 400;
+  font-size:  12px;
+  line-height:  200%;
+  color: #2e2f42;
+}
