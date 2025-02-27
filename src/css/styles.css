@@ -111,6 +111,7 @@ img {
   flex-wrap: wrap;
   gap: 24px;
   row-gap: 24px;
+  padding-bottom: 32px;
 }
 .js-gallery-item{
   display: flex;
@@ -142,4 +143,28 @@ img {
   font-size:  12px;
   line-height:  200%;
   color: #2e2f42;
+}
+
+
+.more-btn{
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 125px;
+  height: 40px;
+  border: none;
+  background-color: #4e75ff;
+  color: #FFFFFF;
+
+  font-weight: 500;
+  font-size: 16px;
+
+  display: none;
+}
+  
+.more-btn:hover {
+  background-color: #6C8CFF;
 }

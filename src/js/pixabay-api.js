@@ -10,15 +10,23 @@ const instance = axios.create({
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: 'true',
-        
+        per_page: '40',
     }
 
 });
 
+let page = 1;
 
-
-export function getImgs(imgsOf) { 
-    return instance.get('', { params: { q: `${imgsOf}` } }).then(r => {
+export async function getImgs(imgsOf, page) { 
+    
+    try {
+        const r = await instance.get('', {
+            params: {
+                q: imgsOf,
+                per_page: 40,
+                page: page,
+            }
+        });
         if (r.data.hits.length === 0) {
             iziToast.error({
                 title: 'Error',
@@ -26,22 +34,30 @@ export function getImgs(imgsOf) {
                 titleColor: 'white',
                 messageColor: 'white',
                 backgroundColor: 'red',
-                theme: 'dark', 
+                theme: 'dark',
             });
-            return [];
+            return { hits: [], totalHits: 0 };
         }
-        return r.data.hits;
-    })
-        .catch(error => {
+
+        return {
+            hits: r.data.hits,
+            totalHits: r.data.totalHits
+        };
+    }
+        catch(error) { 
             iziToast.error({
-                title: 'Erorr',
-                messages: 'Please try again',
+                title: 'Error',
+                message: 'Please try again',
                 titleColor: 'white',
                 messageColor: 'white',
                 backgroundColor: 'red',
                 theme: 'dark', 
             });
-            return [];
-        });
+            return { hits: [], totalHits: 0 };
+        }
  }
+
+export function resetPage() { 
+    page = 1;
+}
 
