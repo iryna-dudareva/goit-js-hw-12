@@ -4,6 +4,9 @@ import { createGallery, resetGallery, scroll } from './js/render-functions.js'
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 
 
 const refs = {
@@ -11,11 +14,13 @@ const refs = {
     loader: document.querySelector('.js-loader'),
     gallery: document.querySelector('.js-gallery'),
     loadMoreBtn: document.querySelector('.more-btn'),
+
 }
 
 let currentlySearched = '';
 let page = 1;
 let totalHits = 0;
+let galleryModals;
 
 refs.searchForm.addEventListener("submit", handleSubmit);
 
@@ -46,13 +51,18 @@ async function handleSubmit(e) {
             });
         } else { 
             createGallery(hits);
+            galleryModals = new SimpleLightbox('.gallery a');
         }
+    
+    imgCountReached(hits);
 
-        if (totalHits > 40) { 
-            refs.loadMoreBtn.style.display = 'block';
-        }
+   
 
-        refs.loader.style.display = 'none';
+    if (totalHits > 40) { 
+        refs.loadMoreBtn.style.display = 'block';
+    }
+
+    refs.loader.style.display = 'none';
 
     
 
@@ -62,13 +72,15 @@ async function handleSubmit(e) {
 refs.loadMoreBtn.addEventListener("click", handleLoadMore);
 
 async function handleLoadMore() {
-    
+
     refs.loader.style.display = 'block';
     
     const imgs = await getImgs(currentlySearched, page);
     const { hits, totalHits } = imgs;
 
     createGallery(hits);
+    imgCountReached(hits);
+    galleryModals.refresh();
          
     page++;
     checkLimit(totalHits);
@@ -76,6 +88,16 @@ async function handleLoadMore() {
     
     scroll();
 }
+
+function imgCountReached(hits) {
+    if (hits.length < 40) { 
+        refs.loadMoreBtn.style.display = 'none';
+        refs.loader.style.display = 'none';
+        iziToast.info({
+            message: 'No more images could be found under the current query',
+        });
+    }
+}  
 
 function checkLimit(totalHits) { 
 
@@ -89,3 +111,5 @@ function checkLimit(totalHits) {
     }
 
 }
+
+

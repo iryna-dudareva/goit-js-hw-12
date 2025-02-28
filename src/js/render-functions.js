@@ -2,9 +2,6 @@ import { getImgs } from "./pixabay-api";
 
 
 
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-
 const refs = {
     gallery: document.querySelector(".js-gallery"),
     loader: document.querySelector('.js-loader'),
@@ -17,9 +14,7 @@ export function createGallery(imgs) {
     refs.gallery.classList.add('gallery');
     
     
-    const galleryModals = new SimpleLightbox('.gallery a');
-    galleryModals.refresh();
-
+    
     const totalHits = imgs.length ? imgs[0].totalHits : 0;
     const currentHits = refs.gallery.children.length;
     if (currentHits >= totalHits) {
