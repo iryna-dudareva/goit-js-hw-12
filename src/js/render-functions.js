@@ -12,8 +12,7 @@ export function createGallery(imgs) {
     const markup = createMarkup(imgs);
     refs.gallery.innerHTML += markup;
     refs.gallery.classList.add('gallery');
-    
-    
+
     
     const totalHits = imgs.length ? imgs[0].totalHits : 0;
     const currentHits = refs.gallery.children.length;

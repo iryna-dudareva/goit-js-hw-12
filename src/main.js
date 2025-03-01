@@ -20,7 +20,8 @@ const refs = {
 let currentlySearched = '';
 let page = 1;
 let totalHits = 0;
-let galleryModals;
+let galleryModals = new SimpleLightbox('.gallery a');
+
 
 refs.searchForm.addEventListener("submit", handleSubmit);
 
@@ -28,7 +29,7 @@ async function handleSubmit(e) {
     e.preventDefault();
 
 
-    const request = e.target.elements['search-bar'].value;
+    const request = e.target.elements['search-bar'].value.trim();
 
     currentlySearched = request;
 
@@ -51,20 +52,12 @@ async function handleSubmit(e) {
             });
         } else { 
             createGallery(hits);
-            galleryModals = new SimpleLightbox('.gallery a');
-        }
-    
-    imgCountReached(hits);
+            galleryModals.refresh();
 
-   
-
-    if (totalHits > 40) { 
-        refs.loadMoreBtn.style.display = 'block';
     }
+    imgCountReached(hits, totalHits);
 
     refs.loader.style.display = 'none';
-
-    
 
     e.target.reset();
 }
@@ -74,23 +67,22 @@ refs.loadMoreBtn.addEventListener("click", handleLoadMore);
 async function handleLoadMore() {
 
     refs.loader.style.display = 'block';
-    
+    page++;
     const imgs = await getImgs(currentlySearched, page);
     const { hits, totalHits } = imgs;
 
     createGallery(hits);
-    imgCountReached(hits);
     galleryModals.refresh();
-         
-    page++;
-    checkLimit(totalHits);
+    imgCountReached(hits, totalHits);
+
+
     refs.loader.style.display = 'none';
     
     scroll();
 }
 
-function imgCountReached(hits) {
-    if (hits.length < 40) { 
+function imgCountReached(hits, totalHits) {
+    if (hits.length < 40 || page * 40 >= totalHits) { 
         refs.loadMoreBtn.style.display = 'none';
         refs.loader.style.display = 'none';
         iziToast.info({
@@ -98,18 +90,5 @@ function imgCountReached(hits) {
         });
     }
 }  
-
-function checkLimit(totalHits) { 
-
-    if (page * 40 >= totalHits) { 
-            refs.loadMoreBtn.style.display = 'none';
-            iziToast.info({
-                message: "We're sorry, but you've reached the end of search results.",
-
-            });
-
-    }
-
-}
 
 
